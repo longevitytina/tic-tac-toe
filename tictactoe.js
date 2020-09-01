@@ -125,7 +125,7 @@ const game = {
 
     isWin = true;
     for (let i = 0; i < this.gameBoard.length; i++) {
-      if (this.gameBoard[this.gameBoard.length - 1 - i][i] === this.player)
+      if (this.gameBoard[this.gameBoard.length - 1 - i][i] !== this.player)
         isWin = false;
     }
     return isWin;
