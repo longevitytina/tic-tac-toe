@@ -18,9 +18,16 @@ const game = {
     // ["o", "x", "2,1"],
     // ["x", "o", "o"],
     ["0,0", "1,0", "2,0"],
-    ["0,1", "1,1", "1,2"],
+    ["0,1", "1,1", "2,1"],
     ["0,2", "1,2", "2,2"],
   ],
+
+  printBoard() {
+    this.gameBoard.forEach((row) => {
+      console.log(row);
+    });
+  },
+
   togglePlayer() {
     if (this.player === "x") {
       this.player = "o";
@@ -39,11 +46,10 @@ const game = {
     this.question();
   },
   question() {
-    console.log(this.gameBoard);
+    this.printBoard();
     const answer = question(`select a tile player ${this.player} `);
 
     const [x, y] = answer.split(",");
-    // console.log(y, x);
     this.choose(x, y);
   },
   // use rl.question to replace numbered tile with current player's symbol(x or o)
@@ -51,7 +57,7 @@ const game = {
     this.gameBoard[y][x] = this.player;
     if (this.checkWin()) {
       console.log(`Player ${this.player} wins!`);
-      console.log(this.gameBoard);
+      this.printBoard();
       process.exit();
     } else {
       this.togglePlayer();
@@ -86,6 +92,7 @@ const game = {
     // console.log(count);
     // check if all index(colums) are the same
     if (count.length >= 3) {
+      // This still has a problem :( e.g: [0, 1, 1, 1, 2]
       return count.every((columnIndex) => count[0] === columnIndex);
     } else {
       return false;
@@ -101,12 +108,11 @@ const game = {
     // 0,0  1,1  2,2
     // 2,0  1,1 0,2
     // if columns have all different x or y coordinates
-    console.log(this.gameBoard);
+    this.printBoard();
     let count = [];
     // You copied this from your checkVertical method, but there's tiny (but important) thing you need to change
     for (let i = 0; i < this.gameBoard.length; i++) {
       for (let j = 0; j < this.gameBoard[i].length; j++) {
-        console.log(this.gameBoard[i][j]);
         if (this.gameBoard[i][j] === this.player) {
           // push coordinates, sort and return true if specific sequence is met
           // 0,0  1,1  2,2, || 2,0  1,1 0,2
